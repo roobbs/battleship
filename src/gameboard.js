@@ -4,8 +4,9 @@ export default class GameBoard {
         this.owner = player;
         this.shipsLeft = 0;
     }
+
     createBoard() {
-        let grid = [];
+        const grid = [];
         for (let i = 0; i < 10; i++) {
             const row = [];
             for (let j = 0; j < 10; j++) {
@@ -16,75 +17,76 @@ export default class GameBoard {
         }
         return grid;
     }
+
     placeShip(ship, x, y) {
         if (x < 10 && x >= 0 && y < 10 && y >= 0) {
-            if (ship.position === "vertical" && x + ship.length <= 10) { //up
+            if (ship.position === 'vertical' && x + ship.length <= 10) { // up
                 for (let i = 0; i < ship.length; i++) {
                     if (this.board[x + i][y] === false) {
-                        this.board[x + i][y] = ship
-                        ship.coords.push([x + i, y])
-                        this.shipsLeft++
+                        this.board[x + i][y] = ship;
+                        ship.coords.push([x + i, y]);
+                        this.shipsLeft++;
                     }
                 }
-                return
+                return;
             }
-            if (ship.position === "horizontal" && y + ship.length <= 10) { //left
+            if (ship.position === 'horizontal' && y + ship.length <= 10) { // left
                 for (let i = 0; i < ship.length; i++) {
                     if (this.board[x][y + i] === false) {
-                        this.board[x][y + i] = ship
-                        ship.coords.push([x, y + i])
-                        this.shipsLeft++
+                        this.board[x][y + i] = ship;
+                        ship.coords.push([x, y + i]);
+                        this.shipsLeft++;
                     }
                 }
-                return
+                return;
             }
         }
-        return false
+        return false;
     }
+
     placeShipRandom(ship) {
-        let isHorizontal = Math.random() < .5
+        const isHorizontal = Math.random() < 0.5;
         let shouldPlace = true;
 
-        let randomX = Math.floor(Math.random() * 10)
+        let randomX = Math.floor(Math.random() * 10);
         while (randomX + ship.length > 10) {
-            randomX = Math.floor(Math.random() * 10)
+            randomX = Math.floor(Math.random() * 10);
         }
-        if (randomX === 10) randomX--
+        if (randomX === 10) randomX--;
 
-        let randomY = Math.floor(Math.random() * 10)
+        let randomY = Math.floor(Math.random() * 10);
         while (randomY + ship.length > 10) {
-            randomY = Math.floor(Math.random() * 10)
+            randomY = Math.floor(Math.random() * 10);
         }
-        if (randomY === 10) randomY--
-        console.log(randomX, randomY)
-        console.log(isHorizontal)
+        if (randomY === 10) randomY--;
+        console.log(randomX, randomY);
+        console.log(isHorizontal);
         if (isHorizontal) {
-            ship.position = "horizontal"
+            ship.position = 'horizontal';
             for (let i = 0; i < ship.length; i++) {
-                if (this.board[randomX] && this.board[randomX][randomY + i] !== false) shouldPlace = false
+                if (this.board[randomX] && this.board[randomX][randomY + i] !== false) shouldPlace = false;
             }
         } else {
-            ship.position = "vertical"
+            ship.position = 'vertical';
             for (let i = 0; i < ship.length; i++) {
-                if (this.board[randomX] && this.board[randomX + i][randomY] !== false) shouldPlace = false
+                if (this.board[randomX] && this.board[randomX + i][randomY] !== false) shouldPlace = false;
             }
         }
-        console.log("Should place " + shouldPlace)
+        console.log(`Should place ${shouldPlace}`);
         if (shouldPlace) {
-            this.placeShip(ship, randomX, randomY)
-            return
+            this.placeShip(ship, randomX, randomY);
         } else {
-            console.log("COULD NOT PLACE SHIP, TRY AGAIN")
-            this.placeShipRandom(ship)
+            console.log('COULD NOT PLACE SHIP, TRY AGAIN');
+            this.placeShipRandom(ship);
         }
-
     }
+
     receiveAttack(x, y) {
         if (this.board[x][y] !== false) {
-            this.board[x][y].hit()
-            this.shipsLeft--
+            this.board[x][y].hit();
+            this.shipsLeft--;
         }
-        this.board[x][y] = true
-        if (this.shipsLeft === 0) return true //CHECK OR DELETE
+        this.board[x][y] = true;
+        if (this.shipsLeft === 0) return true; // CHECK OR DELETE
     }
 }

@@ -1,3 +1,15 @@
+:root {
+  --one: blue;
+  --two: blue;
+  --three: blue;
+  --four: rgb(255, 255, 255);
+  --bg: rgb(106, 210, 255);
+}
+* {
+  border: 1px solid black;
+}
 body {
   height: 100vh;
+  background-color: var(--bg);
+  font-family: monospace;
 }

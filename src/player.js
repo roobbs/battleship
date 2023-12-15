@@ -8,8 +8,12 @@ export default class Player {
     computerPlay() {
         let randomX = Math.floor(Math.random() * 10)
         if (randomX === 10) randomX--
-
         let randomY = Math.floor(Math.random() * 10)
         if (randomY === 10) randomY--
+        if (this.enemyBoard[randomX][randomY] !== true) {
+            this.enemyBoard.receiveAttack(randomX, randomY)
+        } else {
+            this.computerPlay()
+        }
     }
 }
